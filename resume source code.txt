@@ -1,0 +1,400 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage[explicit]{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 79, 144} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Rudra Maurya's CV},
+    pdfauthor={Rudra Maurya},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage[default, type1]{sourcesanspro} 
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0.15cm} % set column seperation
+\makeatletter
+\let\ps@customFooterStyle\ps@plain % Copy the plain style to customFooterStyle
+
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{
+    % avoid page braking right after the section title
+    \needspace{4\baselineskip}
+    % make the font size of the section title large and color it with the primary color
+    \Large\color{primaryColor}
+}{
+}{
+}{
+    % print bold title, give 0.15 cm space and draw a line of 0.8 pt thickness
+    % from the end of the title to the end of the body
+    \textbf{#1}\hspace{0.15cm}\titlerule[0.8pt]\hspace{-0.1cm}
+}[] % section title formatting
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+% \renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.2 cm + 0.00001 cm
+    }{
+        0.2 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{1 cm, \fill, 4.5 cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for three column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\color{primaryColor}\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+
+    \begin{header}
+        \fontsize{30 pt}{30 pt}
+        \textbf{Rudra Maurya}
+
+
+        \Large Android Developer \textbar{} Kotlin \textbar{} Firebase \textbar{} UI/UX
+
+        \vspace{0.2 cm}
+
+        \normalsize
+        \mbox{{\footnotesize\faMapMarker*}\hspace*{0.13cm}Malad, Mumbai}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{mailto:rudramaurya313@gmail.com}{{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}rudramaurya313@gmail.com}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{tel:+90-541-999-99-99}{{\footnotesize\faPhone*}\hspace*{0.13cm} 8369783733}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/rudra-maurya-6bb350253/}{{\footnotesize\faLinkedinIn}\hspace*{0.13cm}Rudra Maurya}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/rudram837}{{\footnotesize\faGithub}\hspace*{0.13cm}rudram837}}%
+    \end{header}
+
+    \vspace{0.3 cm - 0.3 cm}
+
+
+    \section{Objective}
+
+
+
+        
+        \large\begin{onecolentry}
+        Motivated Android Developer skilled in database management, with hands-on experience in Firebase, SQLite, and MongoDB. Currently, expanding expertise in Kotlin Multiplatform (KMP) and Compose Multiplatform (CMP) to build scalable and user-friendly cross-platform applications. 
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+    
+    
+
+    \section{Skills}
+
+
+
+        
+        \begin{onecolentry}
+            \large{\textbf{Programming Languages:} Kotlin, Java, Python.}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \large{\textbf{Frontend Development:} HTML, CSS, JavaScript.}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \large\textbf{Backend and Databases:} Firebase, SQL, MongoDB 
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \large\textbf{Tools and Platforms:} Android Studio, VS Code, NetBeans 
+        \end{onecolentry}
+
+
+
+
+
+    \section{Projects}
+
+
+
+        
+        \begin{twocolentry}{
+        }
+            {\large\textbf{Coffee Shop App}}
+            
+            \vspace{0.2 cm}
+            
+            A coffee ordering Android app where users can explore different categories, view products, add items to cart, and place orders with online payments
+
+            \vspace{0.2 cm}
+
+            \textbf{Tech Stack: } 
+            \begin{highlights}
+                \item Kotlin, XML, Firebase (Realtime Database, Authentication, Storage), Razorpay, MVVM Architecture, ViewModel, LiveData.
+            \end{highlights}
+
+            \vspace{0.2 cm}
+
+            \textbf{Key Features: }
+            \begin{highlights}
+                \item Firebase Authentication for secure user login/signup.
+                \item Category-wise dynamic product listing using Firebase Realtime Database.
+                \item Add to Cart, Favorites, and Order History management.
+                \item Razorpay integration for UPI, Card, and Wallet-based online payments.
+            \end{highlights}
+        \end{twocolentry}
+
+
+        \vspace{0.5 cm}
+
+        \begin{twocolentry}{
+        }
+            {\large\textbf{Recipe App}}
+
+            \vspace{0.2 cm}
+
+            A recipe browsing Android app that offers categorized vegetarian and non-vegetarian recipes with access control via a subscription model
+
+            \vspace{0.2 cm}
+
+            \textbf{Tech Stack: } 
+            \begin{highlights}
+            \item Kotlin, XML, Firebase (Realtime Database, Authentication), SQLite DB, Razorpay, MVVM Architecture, ViewModel, LiveData.
+            \end{highlights}
+
+            \vspace{0.2 cm}
+
+            \textbf{Key Features: }
+
+            \vspace{0.2 cm}
+            
+            \begin{highlights}
+                \item Firebase Authentication for user management.
+                \item Display of categorized recipes (Veg and Non-Veg) with image and description and Search.
+                \item Subscription model for restricted vegetarian recipe access (Razorpay Integration).
+                \item Favorite/save recipe functionality.
+            \end{highlights}
+        \end{twocolentry}
+
+
+        
+    \section{Experience}
+
+        
+        \begin{twocolentry}{
+            Mumbai, India
+
+        July 2024 – Aug 2024
+        }
+            {\large{\textbf{Android Developer Intern}, Prodigy Infotech}}
+
+            \vspace{0.2 cm}
+
+            Completed a hands-on internship focused on Android app development using Kotlin, and Android Studio. Worked on real-world app modules and implemented various essential features of a functional Android application.
+
+            \vspace{0.2 cm}
+
+            \begin{highlights}
+                \item Developed Android Application using Kotlin and Android Studio.
+                \item Built 5+ apps including Tic Tac Toe game, To-Do List, Calculator, Stopwatch, and QR Code Scanner.
+                \item Gained experience in local storage, UI components, and third-party integrations.
+            \end{highlights}
+        \end{twocolentry}
+
+
+        \vspace{0.2 cm}
+
+
+
+    \section{Education}
+
+
+
+        
+        \begin{twocolentry}{
+            July 2022 - May 2025
+        }
+            {\large\textbf{University of Mumbai}}, BSc. Computer Science
+            \begin{highlights}
+                \item CGPA: 7.8/10.0
+            \end{highlights}
+        \end{twocolentry}
+
+
+    \section{Certification}
+
+        
+        \begin{twocolentry}{}
+            {\Large{Android Developer Internship}}
+
+            \vspace{0.2 cm}
+
+            Certificate of Completion
+            
+            \begin{highlights}
+                \item Recognition for Successfully completing the internship
+            \end{highlights}
+        \end{twocolentry}
+
+        \vspace{0.8 cm}
+
+        \begin{twocolentry}{}
+            {\Large{HackerRank Certificate}}
+
+            \vspace{0.2 cm}
+
+            Certified by Hackerrank
+            
+            \begin{highlights}
+                \item Pytgon
+                \item CSS
+            \end{highlights}
+        \end{twocolentry}
+
+        \vspace{0.8 cm}
+
+        \begin{twocolentry}{}
+            {\Large{Infosys Certificate}}
+
+            \vspace{0.2 cm}
+
+            Certified by Infosys
+            
+            \begin{highlights}
+                \item Python
+            \end{highlights}
+        \end{twocolentry}
+
+
+\end{document}
