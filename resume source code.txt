@@ -377,7 +377,7 @@
             Certified by Hackerrank
             
             \begin{highlights}
-                \item Pytgon
+                \item Python
                 \item CSS
             \end{highlights}
         \end{twocolentry}
@@ -398,3 +398,4 @@
 
 
 \end{document}
+
